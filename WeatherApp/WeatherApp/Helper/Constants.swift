@@ -8,4 +8,15 @@
 import Foundation
 
 var BaseURL = "https://api.openweathermap.org/data/2.5/weather?appid="
-var APIKey = "6ebeb21ed7a57da67f9b5f755d3ba320"
+var APIKey = getAPIKey()
+var kEmptyString = ""
+
+
+func getAPIKey() -> String {
+    if let filePath = Bundle.main.path(forResource: "Info", ofType: "plist") {
+        let plist = NSDictionary(contentsOfFile: filePath)
+        let apiKey = plist?.object(forKey: "API_KEY") as? String ?? kEmptyString
+        return apiKey
+    }
+    return kEmptyString
+}

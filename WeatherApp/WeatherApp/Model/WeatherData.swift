@@ -15,6 +15,7 @@ struct WeatherData: Decodable {
 
 struct Main: Decodable {
     let temp: Float
+    let feelsLike: Float
 }
 
 struct Weather: Decodable {

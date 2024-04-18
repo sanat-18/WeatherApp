@@ -8,17 +8,23 @@
 import UIKit
 
 
-protocol WeatherManagerDelegate {
-    func didUpdateWeatherManager(_ weatherManager: WeatherManager, weather: WeatherModel)
+protocol WeatherManagerDelegate: AnyObject {
+    func didUpdateWeatherManager(_ weather: WeatherModel)
     func didFailWithError(error: Error)
 }
 
 
-struct WeatherManager {
-    var delegate: WeatherManagerDelegate?
+final class WeatherManager {
+    
+    static let sharedManager = WeatherManager()
+    weak var delegate: WeatherManagerDelegate?
+    
+    private  init(delegate: WeatherManagerDelegate? = nil) {
+        self.delegate = delegate
+    }
     
     func fetchCityWeather(_ name: String) {
-        let urlString = BaseURL + APIKey + "&q=\(name)"
+        let urlString = BaseURL + APIKey + "&units=metric&q=\(name)"
         performRequest(urlString: urlString)
     }
     
@@ -32,14 +38,14 @@ struct WeatherManager {
             let session = URLSession(configuration: .default)
             
             
-            let task = session.dataTask(with: url) { (data, response, error) in
+            let task = session.dataTask(with: url) { [weak self] (data, response, error) in
                 if error != nil {
-                    delegate?.didFailWithError(error: error!)
+                    self?.delegate?.didFailWithError(error: error!)
                 }
                 
                 if let safeData = data {
-                    if let weather = parseJson(safeData) {
-                        delegate?.didUpdateWeatherManager(self, weather: weather)
+                    if let weather = self?.parseJson(safeData) {
+                        self?.delegate?.didUpdateWeatherManager(weather)
                     }
                 }
             }
@@ -51,13 +57,15 @@ struct WeatherManager {
     
     func parseJson(_ weatherData: Data) -> WeatherModel? {
         let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
         do {
             let decodedData = try decoder.decode(WeatherData.self, from: weatherData)
             let name = decodedData.name
             let id = decodedData.weather[0].id
             let temp = decodedData.main.temp
+            let feelsLike = decodedData.main.feelsLike
             
-            return WeatherModel(cityName: name, conditionID: id, temperature: temp)
+            return WeatherModel(cityName: name, conditionID: id, temperature: temp, feelsLike: feelsLike)
         } catch {
             delegate?.didFailWithError(error: error)
             return nil

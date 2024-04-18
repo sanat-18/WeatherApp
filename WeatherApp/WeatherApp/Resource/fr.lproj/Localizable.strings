@@ -1,0 +1,18 @@
+/* 
+  Localizable.strings
+  WeatherApp
+
+  Created by Sanat S Salian on 18/04/24.
+  
+*/
+
+
+"WEATHER" = "WeatherApp";
+"ERROR_IS" = "Error is:";
+"PLEASE_ENTER_CITY_NAME" = "Please enter city name";
+"SEARCH_CITY" = "Search City";
+"CANCEL" = "Cancel";
+"TEMPERATURE" = "Temperature";
+"FEELS_LIKE" = "Feels like";
+"SEARCH_FOR_YOUR_CITY" = "Search for your City";
+"SEARCH" = "Search";
