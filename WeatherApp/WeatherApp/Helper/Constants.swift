@@ -7,10 +7,9 @@
 
 import Foundation
 
-var BaseURL = "https://api.openweathermap.org/data/2.5/weather?appid="
-var APIKey = getAPIKey()
+var baseURL = "https://api.openweathermap.org/data/2.5/weather?appid="
+var aPIKey = getAPIKey()
 var kEmptyString = ""
-
 
 func getAPIKey() -> String {
     if let filePath = Bundle.main.path(forResource: "Info", ofType: "plist") {

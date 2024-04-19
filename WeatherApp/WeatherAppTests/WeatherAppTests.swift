@@ -31,8 +31,6 @@ class WeatherModelTests: XCTestCase {
     }
 }
 
-
-
 class WeatherDataTests: XCTestCase {
 
     func testWeatherDataDecoding() {
@@ -133,7 +131,6 @@ class WeatherDataTests: XCTestCase {
     }
 }
 
-
 class WeatherManagerTests: XCTestCase {
     
     class MockDelegate: WeatherManagerDelegate {
@@ -181,7 +178,6 @@ class WeatherManagerTests: XCTestCase {
         XCTAssertNotNil(manager.delegate)
         XCTAssertNotNil(manager.delegate === mockDelegate)
     }
-    
     
     func testParseJson() {
         // Given

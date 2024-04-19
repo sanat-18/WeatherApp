@@ -35,7 +35,6 @@ class WeatherViewController: BaseViewController {
         locationManger.requestLocation()
     }
     
-    
     private func setUpLabelTitles() {
         temperatureTitleLabel.text = String(localized: "TEMPERATURE")
         feelsLikeTitleLabel.text = String(localized: "FEELS_LIKE")
@@ -46,7 +45,6 @@ class WeatherViewController: BaseViewController {
         presentSearchViewController()
     }
 }
-
 
 extension WeatherViewController: WeatherManagerDelegate {
     func didUpdateWeatherManager(_ weather: WeatherModel) {
@@ -72,10 +70,7 @@ extension WeatherViewController: WeatherManagerDelegate {
             present(searchVC, animated: true, completion: nil)
         }
     }
-    
-    
 }
-
 
 extension WeatherViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -93,13 +88,10 @@ extension WeatherViewController: CLLocationManagerDelegate {
     }
 }
 
-
 extension WeatherViewController: SearchViewControllerDelegate {
     func fetchWeatherForCity(_ name: String) {
         startActivityIndicator()
         WeatherManager.sharedManager.fetchCityWeather(name)
     }
     
-    
 }
-

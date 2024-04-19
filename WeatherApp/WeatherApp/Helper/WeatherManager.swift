@@ -7,12 +7,10 @@
 
 import UIKit
 
-
 protocol WeatherManagerDelegate: AnyObject {
     func didUpdateWeatherManager(_ weather: WeatherModel)
     func didFailWithError(error: Error)
 }
-
 
 final class WeatherManager {
     
@@ -24,20 +22,18 @@ final class WeatherManager {
     }
     
     func fetchCityWeather(_ name: String) {
-        let urlString = BaseURL + APIKey + "&units=metric&q=\(name)"
+        let urlString = baseURL + aPIKey + "&units=metric&q=\(name)"
         performRequest(urlString: urlString)
     }
     
     func fetchCurrentWeather(latitude lat: Float, longitude lon: Float) {
-        let urlString = BaseURL + APIKey + "&units=metric&lat=\(lat)&lon=\(lon)"
+        let urlString = baseURL + aPIKey + "&units=metric&lat=\(lat)&lon=\(lon)"
         performRequest(urlString: urlString)
     }
     
-    func performRequest(urlString : String) {
+    func performRequest(urlString: String) {
         if let url = URL(string: urlString) {
             let session = URLSession(configuration: .default)
-            
-            
             let task = session.dataTask(with: url) { [weak self] (data, response, error) in
                 if error != nil {
                     self?.delegate?.didFailWithError(error: error!)
@@ -53,7 +49,6 @@ final class WeatherManager {
             task.resume()
         }
     }
-    
     
     func parseJson(_ weatherData: Data) -> WeatherModel? {
         let decoder = JSONDecoder()

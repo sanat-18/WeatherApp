@@ -49,7 +49,7 @@ class SearchViewController: UIViewController {
         navbar.standardAppearance = appearance
         navbar.scrollEdgeAppearance = appearance
         
-        let buttonAttributedString = NSMutableAttributedString(string: String(localized: "CANCEL"), attributes: [ NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)] as [NSAttributedString.Key : Any])
+        let buttonAttributedString = NSMutableAttributedString(string: String(localized: "CANCEL"), attributes: [ NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)] as [NSAttributedString.Key: Any])
         backButton.setAttributedTitle(buttonAttributedString, for: [])
         
         backButton.addTarget(self, action: #selector (backTapped), for: .allTouchEvents)
@@ -59,11 +59,8 @@ class SearchViewController: UIViewController {
         navbar.items = [navItem]
     }
     
-    
     @objc func backTapped(){
         dismiss(animated: true, completion: nil)
     }
     
 }
-
-

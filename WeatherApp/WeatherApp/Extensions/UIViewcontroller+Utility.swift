@@ -8,10 +8,9 @@
 import Foundation
 import UIKit
 
-
 extension UIViewController{
     
-    class func searchViewController() ->  UIViewController {
+    class func searchViewController() -> UIViewController {
         return UIStoryboard.mainStoryboard().instantiateViewController(withIdentifier: "SearchViewController")
     }
     
