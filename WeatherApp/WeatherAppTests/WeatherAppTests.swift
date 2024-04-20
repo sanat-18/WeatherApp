@@ -16,9 +16,10 @@ class WeatherModelTests: XCTestCase {
         let conditionID = 800
         let temperature: Float = 20.5
         let feelsLike: Float = 19.0
+        let country: String = "JA"
         
         // When
-        let weatherModel = WeatherModel(cityName: cityName, conditionID: conditionID, temperature: temperature, feelsLike: feelsLike)
+        let weatherModel = WeatherModel(cityName: cityName, conditionID: conditionID, temperature: temperature, feelsLike: feelsLike, country: country)
         
         // Then
         XCTAssertEqual(weatherModel.cityName, cityName)
@@ -28,6 +29,7 @@ class WeatherModelTests: XCTestCase {
         XCTAssertEqual(weatherModel.temperatureString, "20.5")
         XCTAssertEqual(weatherModel.feelsLikeTemperatureString, "19.0")
         XCTAssertEqual(weatherModel.weatherCondition, "sun.max")
+        XCTAssertEqual(weatherModel.country, "JA")
     }
 }
 
@@ -46,7 +48,11 @@ class WeatherDataTests: XCTestCase {
                 {
                     "id": 800
                 }
-            ]
+            ],
+            "sys" : {
+                "country" : "JA"
+            }
+        
         }
         """.data(using: .utf8)!
         
@@ -61,6 +67,7 @@ class WeatherDataTests: XCTestCase {
             XCTAssertEqual(weatherData.main.feelsLike, 18.0)
             XCTAssertEqual(weatherData.weather.count, 1)
             XCTAssertEqual(weatherData.weather[0].id, 800)
+            XCTAssertEqual(weatherData.sys.country, "JA")
         } catch {
             XCTFail("Failed to decode WeatherData: \(error)")
         }
@@ -131,84 +138,56 @@ class WeatherDataTests: XCTestCase {
     }
 }
 
-class WeatherManagerTests: XCTestCase {
-    
-    class MockDelegate: WeatherManagerDelegate {
-        var updateWeatherCalled = false
-        var error: Error?
-        var weather: WeatherModel?
+class WeatherVCTests: XCTestCase {
+    func test_Current_Location_API_Failure() {
+        let mockService = MockWatherService()
+        mockService.result = .failure(.DecodingError)
+        let vc = WeatherViewController(weatherService: mockService)
+        vc.fetchCurrentLocation()
+        XCTAssertEqual(vc.weatherModel?.country, nil)
+        XCTAssertNil(vc.weatherModel, "")
         
-        func didUpdateWeatherManager(_ weather: WeatherModel) {
-            updateWeatherCalled = true
-            self.weather = weather
-        }
-        
-        func didFailWithError(error: Error) {
-            self.error = error
-        }
     }
     
-    func testFetchCityWeather() {
-        // Given
-        let manager = WeatherManager.sharedManager
-        let mockDelegate = MockDelegate()
-        manager.delegate = mockDelegate
-        let cityName = "London"
-        
-        // When
-        manager.fetchCityWeather(cityName)
-        
-        // Then
-        XCTAssertNotNil(manager.delegate)
-        XCTAssertNotNil(manager.delegate === mockDelegate)
+    func test_Current_API_Success() {
+        let mockService = MockWatherService()
+        guard let weatherData = mockService.weatherData() else { return }
+        mockService.result = .success(weatherData)
+        let vc = WeatherViewController(weatherService: mockService)
+        vc.fetchCurrentLocation()
+        XCTAssertEqual(weatherData.cityName, "London")
+        XCTAssertEqual(weatherData.conditionID, 800)
+        XCTAssertEqual(weatherData.temperature, 20.5)
+        XCTAssertEqual(weatherData.feelsLike, 18.0)
+        XCTAssertEqual(weatherData.temperatureString, "20.5")
+        XCTAssertEqual(weatherData.feelsLikeTemperatureString, "18.0")
+        XCTAssertEqual(weatherData.weatherCondition, "sun.max")
+        XCTAssertEqual(weatherData.country, "JA")
     }
     
-    func testFetchCurrentWeather() {
-        // Given
-        let manager = WeatherManager.sharedManager
-        let mockDelegate = MockDelegate()
-        manager.delegate = mockDelegate
-        let latitude: Float = 50.5074
-        let longitude: Float = 13.1278
+    func test_City_Search_API_Failure() {
+        let mockService = MockWatherService()
+        mockService.result = .failure(.DecodingError)
+        let vc = WeatherViewController(weatherService: mockService)
+        vc.fetchWeatherForCity("London")
+        XCTAssertEqual(vc.weatherModel?.country, nil)
+        XCTAssertNil(vc.weatherModel, "")
         
-        // When
-        manager.fetchCurrentWeather(latitude: latitude, longitude: longitude)
-        
-        // Then
-        XCTAssertNotNil(manager.delegate)
-        XCTAssertNotNil(manager.delegate === mockDelegate)
     }
     
-    func testParseJson() {
-        // Given
-        let manager = WeatherManager.sharedManager
-        let mockDelegate = MockDelegate()
-        manager.delegate = mockDelegate
-        
-        // Sample JSON data
-        let json = """
-        {
-            "name": "London",
-            "main": {
-                "temp": 20.5,
-                "feelsLike": 18.0
-            },
-            "weather": [
-                {
-                    "id": 800
-                }
-            ]
-        }
-        """.data(using: .utf8)!
-        
-        // When
-        let weatherModel = manager.parseJson(json)
-        
-        // Then
-        XCTAssertNotNil(weatherModel)
-        XCTAssertEqual(weatherModel?.cityName, "London")
-        XCTAssertEqual(weatherModel?.conditionID, 800)
-        XCTAssertEqual(weatherModel?.temperature, 20.5)
-        XCTAssertEqual(weatherModel?.feelsLike, 18.0)
+    func test_City_Search_API_Success() {
+        let mockService = MockWatherService()
+        guard let weatherData = mockService.weatherData() else { return }
+        mockService.result = .success(weatherData)
+        let vc = WeatherViewController(weatherService: mockService)
+        vc.fetchWeatherForCity("London")
+        XCTAssertEqual(weatherData.cityName, "London")
+        XCTAssertEqual(weatherData.conditionID, 800)
+        XCTAssertEqual(weatherData.temperature, 20.5)
+        XCTAssertEqual(weatherData.feelsLike, 18.0)
+        XCTAssertEqual(weatherData.temperatureString, "20.5")
+        XCTAssertEqual(weatherData.feelsLikeTemperatureString, "18.0")
+        XCTAssertEqual(weatherData.weatherCondition, "sun.max")
+        XCTAssertEqual(weatherData.country, "JA")
     }
 }

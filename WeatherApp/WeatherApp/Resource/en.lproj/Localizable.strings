@@ -18,4 +18,9 @@
 "SEARCH" = "Search";
 "SETTINGS" = "Settings";
 "PLEASE_PROVIDE_PERMISSION" = "Please give the necessary permissions.";
-
+"ERROR" = "Error";
+"BAD_URL" = "Bad URL";
+"DECODING_ERROR" = "Error while decoding data";
+"NO_DATA" = "No data found";
+"UNKNOWN_ERROE" = "Unkown error has occurred";
+"OK" = "OK";

@@ -10,7 +10,10 @@ import CoreLocation
 
 class WeatherViewController: BaseViewController {
     
-    var locationManger = CLLocationManager()
+    fileprivate let locationManger = CLLocationManager()
+    fileprivate var currentLocation: CLLocation?
+    private let weatherService: WeatherServiceDelegate
+    var weatherModel: WeatherModel?
     
     @IBOutlet weak var conditionalImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -25,13 +28,31 @@ class WeatherViewController: BaseViewController {
     var lat: Float = 0.0
     var lon: Float = 0.0
     
+    init(weatherService: WeatherServiceDelegate = WeatherService()) {
+        self.weatherService = weatherService
+        super.init(nibName: nil, bundle: nil)
+      }
+    
+    required init?(coder: NSCoder) {
+        self.weatherService = WeatherService()
+        super.init(coder: coder)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationManger.delegate = self
-        WeatherManager.sharedManager.delegate = self
         title = String(localized: "WEATHER")
         self.navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setUpLocation()
+    }
+    
+    private func setUpLocation() {
+        locationManger.delegate = self
         locationManger.requestWhenInUseAuthorization()
+        locationManger.startUpdatingLocation()
         locationManger.requestLocation()
     }
     
@@ -41,26 +62,14 @@ class WeatherViewController: BaseViewController {
         searchForYourCityButton.setTitle(String(localized: "SEARCH_FOR_YOUR_CITY"), for: .normal)
     }
     
-    @IBAction func searchCityButtonTapped(_ sender: UIButton) {
-        presentSearchViewController()
-    }
-}
-
-extension WeatherViewController: WeatherManagerDelegate {
-    func didUpdateWeatherManager(_ weather: WeatherModel) {
-        
-        DispatchQueue.main.sync {
-            stopActivityIndicator()
-            temperatureLabel.text = weather.temperatureString
-            conditionalImageView.image = UIImage(systemName: weather.weatherCondition)
-            feelsLikeLabel.text = weather.feelsLikeTemperatureString
-            cityLabel.text = weather.cityName
+    private func updateLLabels() {
+        if let weatherModel = weatherModel {
+            temperatureLabel.text = weatherModel.temperatureString
+            conditionalImageView.image = UIImage(systemName: weatherModel.weatherCondition)
+            feelsLikeLabel.text = weatherModel.feelsLikeTemperatureString
+            cityLabel.text = weatherModel.cityName + ", " + weatherModel.country
         }
-    }
-    
-    func didFailWithError(error: Error) {
-        stopActivityIndicator()
-        print(error)
+        
     }
     
     private func presentSearchViewController() {
@@ -70,17 +79,51 @@ extension WeatherViewController: WeatherManagerDelegate {
             present(searchVC, animated: true, completion: nil)
         }
     }
+    
+    func fetchCurrentLocation() {
+        WeatherService().fetchCurrentLocation(latitude: lat, longitude: lat) { result in
+            DispatchQueue.main.sync {
+                self.stopActivityIndicator()
+                switch result {
+                case .success(let weather):
+                    self.weatherModel = weather
+                    self.updateLLabels()
+                case .failure(let error):
+                    self.handleError(error)
+                }
+            }
+        }
+    }
+    
+    @IBAction func searchCityButtonTapped(_ sender: UIButton) {
+        presentSearchViewController()
+    }
+    
+    @IBAction func refreshButtonTapped(_ sender: UIBarButtonItem) {
+        startActivityIndicator()
+        fetchCurrentLocation()
+       
+    }
 }
 
 extension WeatherViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.last {
+        if !locations.isEmpty, currentLocation == nil {
+            currentLocation = locations.first
             locationManger.stopUpdatingLocation()
-            lat = Float(location.coordinate.latitude)
-            lon = Float(location.coordinate.longitude)
-            startActivityIndicator()
-            WeatherManager.sharedManager.fetchCurrentWeather(latitude: lat, longitude: lon)
+            requestWeatherForLocation()
         }
+    }
+    
+    func requestWeatherForLocation() {
+        guard let currentLocation = currentLocation else {
+            return
+        }
+        lat = Float(currentLocation.coordinate.latitude)
+        lon = Float(currentLocation.coordinate.longitude)
+        startActivityIndicator()
+        fetchCurrentLocation()
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Swift.Error) {
@@ -91,7 +134,18 @@ extension WeatherViewController: CLLocationManagerDelegate {
 extension WeatherViewController: SearchViewControllerDelegate {
     func fetchWeatherForCity(_ name: String) {
         startActivityIndicator()
-        WeatherManager.sharedManager.fetchCityWeather(name)
+        WeatherService().fetchWeatherForCity(name: name) { result in
+            DispatchQueue.main.sync {
+                self.stopActivityIndicator()
+                switch result {
+                case .success(let weather):
+                    self.weatherModel = weather
+                    self.updateLLabels()
+                case .failure(let error):
+                    self.handleError(error)
+                }
+            }
+        }
     }
     
 }

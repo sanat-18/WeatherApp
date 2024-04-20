@@ -7,63 +7,77 @@
 
 import UIKit
 
-protocol WeatherManagerDelegate: AnyObject {
-    func didUpdateWeatherManager(_ weather: WeatherModel)
-    func didFailWithError(error: Error)
+enum DemoError: Error {
+    case BadURL
+    case NoData
+    case DecodingError
 }
 
-final class WeatherManager {
+class WeatherManager {
+    let apiHandler: APIHandler
+    let responseHandler: ResponseHandler
     
-    static let sharedManager = WeatherManager()
-    weak var delegate: WeatherManagerDelegate?
-    
-    private  init(delegate: WeatherManagerDelegate? = nil) {
-        self.delegate = delegate
+    init(apiHandler: APIHandler = APIHandler(),
+         responseHandler: ResponseHandler = ResponseHandler()){
+        self.apiHandler = apiHandler
+        self.responseHandler = responseHandler
     }
     
-    func fetchCityWeather(_ name: String) {
-        let urlString = baseURL + aPIKey + "&units=metric&q=\(name)"
-        performRequest(urlString: urlString)
-    }
-    
-    func fetchCurrentWeather(latitude lat: Float, longitude lon: Float) {
-        let urlString = baseURL + aPIKey + "&units=metric&lat=\(lat)&lon=\(lon)"
-        performRequest(urlString: urlString)
-    }
-    
-    func performRequest(urlString: String) {
-        if let url = URL(string: urlString) {
-            let session = URLSession(configuration: .default)
-            let task = session.dataTask(with: url) { [weak self] (data, response, error) in
-                if error != nil {
-                    self?.delegate?.didFailWithError(error: error!)
-                }
-                
-                if let safeData = data {
-                    if let weather = self?.parseJson(safeData) {
-                        self?.delegate?.didUpdateWeatherManager(weather)
+    func fetchCurrentLocation(latitude lat: Float, longitude lon: Float, completion: @escaping (Result<WeatherModel, DemoError>) -> Void) -> Void {
+        guard let url = URL(string: baseURL + aPIKey + "&units=metric&lat=\(lat)&lon=\(lon)") else {
+            return completion(.failure(.BadURL))
+        }
+        apiHandler.fetchCurrentLocation(url: url) { result in
+            switch result {
+            case .success(let data):
+                self.responseHandler.fetchWeatherData(data: data) { decodedData in
+                    switch decodedData {
+                    case .success(let model):
+                        completion(.success(model))
+                    case .failure(_):
+                        completion(.failure(.DecodingError))
                     }
                 }
+            case .failure(_):
+                print("")
             }
-            
-            task.resume()
+        }
+        
+    }
+        
+    func fetchWeatherForCity(name: String, completion: @escaping (Result<WeatherModel, DemoError>) -> Void) -> Void {
+        guard let url = URL(string: baseURL + aPIKey + "&units=metric&q=\(name)") else {
+            return completion(.failure(.BadURL))
+        }
+        apiHandler.fetchCurrentLocation(url: url) { result in
+            switch result {
+            case .success(let data):
+                self.responseHandler.fetchWeatherData(data: data) { decodedData in
+                    switch decodedData {
+                    case .success(let model):
+                        completion(.success(model))
+                    case .failure(_):
+                        completion(.failure(.DecodingError))
+                    }
+                }
+            case .failure(_):
+                print("")
+            }
         }
     }
+}
+
+protocol WeatherServiceDelegate {
+    func fetchCurrentLocation(latitude lat: Float, longitude lon: Float, completion: @escaping (Result<WeatherModel, DemoError>) -> Void) -> Void
+    func fetchWeatherForCity(name: String, completion: @escaping (Result<WeatherModel, DemoError>) -> Void) -> Void
+}
+
+class WeatherService: WeatherServiceDelegate {
+    func fetchCurrentLocation(latitude lat: Float, longitude lon: Float, completion: @escaping (Result<WeatherModel, DemoError>) -> Void) -> Void {
+        WeatherManager().fetchCurrentLocation(latitude: lat, longitude: lon, completion: completion)
+    }
     
-    func parseJson(_ weatherData: Data) -> WeatherModel? {
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        do {
-            let decodedData = try decoder.decode(WeatherData.self, from: weatherData)
-            let name = decodedData.name
-            let id = decodedData.weather[0].id
-            let temp = decodedData.main.temp
-            let feelsLike = decodedData.main.feelsLike
-            
-            return WeatherModel(cityName: name, conditionID: id, temperature: temp, feelsLike: feelsLike)
-        } catch {
-            delegate?.didFailWithError(error: error)
-            return nil
-        }
+    func fetchWeatherForCity(name: String, completion: @escaping (Result<WeatherModel, DemoError>) -> Void) -> Void {
+        WeatherManager().fetchWeatherForCity(name: name, completion: completion)
     }
 }
