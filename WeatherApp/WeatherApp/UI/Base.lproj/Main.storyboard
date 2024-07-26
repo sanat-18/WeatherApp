@@ -307,11 +307,10 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KeA-2P-4ar">
-                                <rect key="frame" x="8" y="193" width="377" height="50"/>
+                                <rect key="frame" x="8" y="198" width="377" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="qUx-FG-vgb"/>
                                 </constraints>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Search">
                                     <backgroundConfiguration key="background" cornerRadius="10">
@@ -340,7 +339,7 @@
                             <constraint firstItem="qED-Js-Cg6" firstAttribute="top" secondItem="9di-BY-Mfd" secondAttribute="top" id="DW8-MI-K0I"/>
                             <constraint firstItem="KeA-2P-4ar" firstAttribute="trailing" secondItem="Dxw-fE-lIG" secondAttribute="trailing" id="F10-OA-Xyg"/>
                             <constraint firstItem="qED-Js-Cg6" firstAttribute="trailing" secondItem="9di-BY-Mfd" secondAttribute="trailing" id="KcI-cl-rc4"/>
-                            <constraint firstItem="KeA-2P-4ar" firstAttribute="top" secondItem="Dxw-fE-lIG" secondAttribute="bottom" constant="20" id="Siz-yX-Shh"/>
+                            <constraint firstItem="KeA-2P-4ar" firstAttribute="top" secondItem="Dxw-fE-lIG" secondAttribute="bottom" constant="25" id="Siz-yX-Shh"/>
                             <constraint firstItem="Dxw-fE-lIG" firstAttribute="leading" secondItem="9di-BY-Mfd" secondAttribute="leading" constant="8" id="YX8-vi-JM9"/>
                             <constraint firstItem="Dxw-fE-lIG" firstAttribute="top" secondItem="qED-Js-Cg6" secondAttribute="bottom" constant="20" id="cPu-xl-5Bf"/>
                             <constraint firstItem="KeA-2P-4ar" firstAttribute="leading" secondItem="Dxw-fE-lIG" secondAttribute="leading" id="eBz-A2-mZY"/>
