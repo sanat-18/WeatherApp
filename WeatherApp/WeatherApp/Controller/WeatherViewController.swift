@@ -65,10 +65,11 @@ class WeatherViewController: BaseViewController {
     private func updateLLabels() {
         if let weatherModel = weatherModel {
             //Update labels
-            temperatureLabel.text = weatherModel.temperatureString
-            feelsLikeLabel.text = weatherModel.feelsLikeTemperatureString
-            conditionalImageView.image = UIImage(systemName: weatherModel.weatherCondition)
             cityLabel.text = weatherModel.cityName + ", " + weatherModel.country
+            feelsLikeLabel.text = weatherModel.feelsLikeTemperatureString
+            temperatureLabel.text = weatherModel.temperatureString
+            conditionalImageView.image = UIImage(systemName: weatherModel.weatherCondition)
+            
             
         }
         
