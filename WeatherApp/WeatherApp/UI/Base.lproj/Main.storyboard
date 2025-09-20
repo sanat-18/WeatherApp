@@ -289,7 +289,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="spQ-wZ-b0P">
-                                <rect key="frame" x="8" y="188" width="377" height="125"/>
+                                <rect key="frame" x="8" y="268" width="377" height="125"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dxw-fE-lIG">
                                         <rect key="frame" x="0.0" y="0.0" width="377" height="50"/>
@@ -345,7 +345,7 @@
                             <constraint firstItem="qED-Js-Cg6" firstAttribute="top" secondItem="9di-BY-Mfd" secondAttribute="top" id="DW8-MI-K0I"/>
                             <constraint firstItem="qED-Js-Cg6" firstAttribute="trailing" secondItem="9di-BY-Mfd" secondAttribute="trailing" id="KcI-cl-rc4"/>
                             <constraint firstItem="spQ-wZ-b0P" firstAttribute="leading" secondItem="9di-BY-Mfd" secondAttribute="leading" constant="8" id="Mb7-y2-YhB"/>
-                            <constraint firstItem="spQ-wZ-b0P" firstAttribute="top" secondItem="qED-Js-Cg6" secondAttribute="bottom" constant="20" id="f43-oV-j0s"/>
+                            <constraint firstItem="spQ-wZ-b0P" firstAttribute="top" secondItem="qED-Js-Cg6" secondAttribute="bottom" constant="100" id="f43-oV-j0s"/>
                             <constraint firstItem="qED-Js-Cg6" firstAttribute="leading" secondItem="9di-BY-Mfd" secondAttribute="leading" id="ne3-5A-DWV"/>
                             <constraint firstItem="9di-BY-Mfd" firstAttribute="trailing" secondItem="spQ-wZ-b0P" secondAttribute="trailing" constant="8" id="o0V-IM-pGc"/>
                         </constraints>
