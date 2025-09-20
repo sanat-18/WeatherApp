@@ -289,7 +289,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="spQ-wZ-b0P">
-                                <rect key="frame" x="8" y="182" width="377" height="125"/>
+                                <rect key="frame" x="8" y="188" width="377" height="125"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dxw-fE-lIG">
                                         <rect key="frame" x="0.0" y="0.0" width="377" height="50"/>
@@ -327,14 +327,11 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="125" id="eAB-c4-77D"/>
-                                </constraints>
                             </stackView>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qED-Js-Cg6">
-                                <rect key="frame" x="0.0" y="118" width="393" height="44"/>
+                                <rect key="frame" x="0.0" y="118" width="393" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="YjN-Pf-FsI"/>
+                                    <constraint firstAttribute="height" constant="50" id="YjN-Pf-FsI"/>
                                 </constraints>
                                 <items>
                                     <navigationItem title="Title" id="8FE-eb-6qM"/>
