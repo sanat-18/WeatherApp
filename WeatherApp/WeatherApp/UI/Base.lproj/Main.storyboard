@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FGW-oe-fda">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24127" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FGW-oe-fda">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -21,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="7NB-H5-eV6">
-                                <rect key="frame" x="20" y="123" width="353" height="675"/>
+                                <rect key="frame" x="20" y="192" width="353" height="572"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jER-Hb-H0L">
                                         <rect key="frame" x="116.66666666666666" y="2.6666666666666643" width="120" height="115"/>
@@ -164,7 +164,7 @@
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lnw-2I-L4Z">
-                                        <rect key="frame" x="151.66666666666666" y="400" width="50" height="275"/>
+                                        <rect key="frame" x="151.66666666666666" y="400" width="50" height="172"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20" id="0Kt-Cn-7ju"/>
@@ -288,43 +288,51 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dxw-fE-lIG">
-                                <rect key="frame" x="8" y="123" width="377" height="50"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="spQ-wZ-b0P">
+                                <rect key="frame" x="8" y="182" width="377" height="125"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Na8-lX-XnB">
-                                        <rect key="frame" x="16" y="10" width="345" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dxw-fE-lIG">
+                                        <rect key="frame" x="0.0" y="0.0" width="377" height="50"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Na8-lX-XnB">
+                                                <rect key="frame" x="16" y="10" width="345" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="Na8-lX-XnB" secondAttribute="trailing" constant="16" id="F10-ci-vWO"/>
+                                            <constraint firstAttribute="height" constant="50" id="Ymp-AL-Z7A"/>
+                                            <constraint firstItem="Na8-lX-XnB" firstAttribute="top" secondItem="Dxw-fE-lIG" secondAttribute="top" constant="10" id="ZTW-CV-hxK"/>
+                                            <constraint firstAttribute="bottom" secondItem="Na8-lX-XnB" secondAttribute="bottom" constant="10" id="jKK-z8-2PM"/>
+                                            <constraint firstItem="Na8-lX-XnB" firstAttribute="leading" secondItem="Dxw-fE-lIG" secondAttribute="leading" constant="16" id="zQ9-7r-olW"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KeA-2P-4ar">
+                                        <rect key="frame" x="0.0" y="75" width="377" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="qUx-FG-vgb"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Search">
+                                            <backgroundConfiguration key="background" cornerRadius="10">
+                                                <color key="backgroundColor" systemColor="tintColor"/>
+                                            </backgroundConfiguration>
+                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="searchButtonTapped:" destination="WqB-SA-oTq" eventType="touchUpInside" id="ZjK-mL-GSg"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemGray6Color"/>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="Na8-lX-XnB" secondAttribute="trailing" constant="16" id="F10-ci-vWO"/>
-                                    <constraint firstAttribute="height" constant="50" id="Ymp-AL-Z7A"/>
-                                    <constraint firstItem="Na8-lX-XnB" firstAttribute="top" secondItem="Dxw-fE-lIG" secondAttribute="top" constant="10" id="ZTW-CV-hxK"/>
-                                    <constraint firstAttribute="bottom" secondItem="Na8-lX-XnB" secondAttribute="bottom" constant="10" id="jKK-z8-2PM"/>
-                                    <constraint firstItem="Na8-lX-XnB" firstAttribute="leading" secondItem="Dxw-fE-lIG" secondAttribute="leading" constant="16" id="zQ9-7r-olW"/>
+                                    <constraint firstAttribute="height" constant="125" id="eAB-c4-77D"/>
                                 </constraints>
-                            </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KeA-2P-4ar">
-                                <rect key="frame" x="8" y="198" width="377" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="qUx-FG-vgb"/>
-                                </constraints>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Search">
-                                    <backgroundConfiguration key="background" cornerRadius="10">
-                                        <color key="backgroundColor" systemColor="tintColor"/>
-                                    </backgroundConfiguration>
-                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="searchButtonTapped:" destination="WqB-SA-oTq" eventType="touchUpInside" id="ZjK-mL-GSg"/>
-                                </connections>
-                            </button>
+                            </stackView>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qED-Js-Cg6">
-                                <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                                <rect key="frame" x="0.0" y="118" width="393" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="YjN-Pf-FsI"/>
                                 </constraints>
@@ -338,14 +346,11 @@
                         <color key="tintColor" systemColor="systemCyanColor"/>
                         <constraints>
                             <constraint firstItem="qED-Js-Cg6" firstAttribute="top" secondItem="9di-BY-Mfd" secondAttribute="top" id="DW8-MI-K0I"/>
-                            <constraint firstItem="KeA-2P-4ar" firstAttribute="trailing" secondItem="Dxw-fE-lIG" secondAttribute="trailing" id="F10-OA-Xyg"/>
                             <constraint firstItem="qED-Js-Cg6" firstAttribute="trailing" secondItem="9di-BY-Mfd" secondAttribute="trailing" id="KcI-cl-rc4"/>
-                            <constraint firstItem="KeA-2P-4ar" firstAttribute="top" secondItem="Dxw-fE-lIG" secondAttribute="bottom" constant="25" id="Siz-yX-Shh"/>
-                            <constraint firstItem="Dxw-fE-lIG" firstAttribute="leading" secondItem="9di-BY-Mfd" secondAttribute="leading" constant="8" id="YX8-vi-JM9"/>
-                            <constraint firstItem="Dxw-fE-lIG" firstAttribute="top" secondItem="qED-Js-Cg6" secondAttribute="bottom" constant="20" id="cPu-xl-5Bf"/>
-                            <constraint firstItem="KeA-2P-4ar" firstAttribute="leading" secondItem="Dxw-fE-lIG" secondAttribute="leading" id="eBz-A2-mZY"/>
+                            <constraint firstItem="spQ-wZ-b0P" firstAttribute="leading" secondItem="9di-BY-Mfd" secondAttribute="leading" constant="8" id="Mb7-y2-YhB"/>
+                            <constraint firstItem="spQ-wZ-b0P" firstAttribute="top" secondItem="qED-Js-Cg6" secondAttribute="bottom" constant="20" id="f43-oV-j0s"/>
                             <constraint firstItem="qED-Js-Cg6" firstAttribute="leading" secondItem="9di-BY-Mfd" secondAttribute="leading" id="ne3-5A-DWV"/>
-                            <constraint firstItem="9di-BY-Mfd" firstAttribute="trailing" secondItem="Dxw-fE-lIG" secondAttribute="trailing" constant="8" id="rGb-I6-HnY"/>
+                            <constraint firstItem="9di-BY-Mfd" firstAttribute="trailing" secondItem="spQ-wZ-b0P" secondAttribute="trailing" constant="8" id="o0V-IM-pGc"/>
                         </constraints>
                     </view>
                     <connections>
@@ -365,7 +370,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="FGW-oe-fda" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="886-D9-lCJ">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <rect key="frame" x="0.0" y="118" width="393" height="54"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -385,22 +390,22 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemCyanColor">
-            <color red="0.19607843137254902" green="0.67843137254901964" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.1960784314" green="0.67843137249999996" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray5Color">
-            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray6Color">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPurpleColor">
-            <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tertiaryLabelColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.29803921568627451" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.29803921570000003" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tintColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
